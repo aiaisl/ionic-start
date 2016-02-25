@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -14,73 +15,84 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="js/ng-cordova.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
+    <script src="js/ionic-timepicker.bundle.min.js"></script>
     <script src="js/app.js"></script>
-  </head>
-  <body ng-app="todo">
-      
-      <ion-side-menus ng-controller="MainController">
+</head>
+
+<body ng-app="todo">
+
+    <ion-side-menus ng-controller="MainController">
         <!-- Center content -->
         <ion-side-menu-content>
             <ion-header-bar class="bar-dark">
-              <h1 class="title">{{activeProject.title}}</h1>
-              <button class="button button-icon" ng-click="newTask()">
-                  <i class="icon ion-compose"></i>
-              </button>
+                <h1 class="title">{{activeProject.title}}</h1>
+                <button class="button button-icon" ng-click="newTask()">
+                    <i class="icon ion-compose"></i>
+                </button>
             </ion-header-bar>
-            
-            <ion-content scroll="false">  
+
+            <ion-content scroll="false">
                 <ion-list>
-                  <ion-item ng-repeat="task in activeProject.tasks">
-                    {{task.title}}
-                  </ion-item>
+                    <ion-item ng-repeat="task in activeProject.tasks">
+                        {{task.title}}
+                        <span class="item-note">
+                        {{task.time}}
+                        </span>
+                    </ion-item>
                 </ion-list>
             </ion-content>
-            
+
         </ion-side-menu-content>
-      
+
         <!-- Left menu -->
         <ion-side-menu side="left">
-          <ion-header-bar align-title="left" class="bar-dark">
-            <h1 class="title">Projects</h1>
-            <button class="button button-icon ion-plus" ng-click="newProject()"></button>
-          </ion-header-bar>
-          <ion-content scroll="false">
-              
-              <ion-list>
-                <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
-                  {{project.title}}
-                </ion-item>
-              </ion-list>
-              
-          </ion-content>
+            <ion-header-bar align-title="left" class="bar-dark">
+                <h1 class="title">Projects</h1>
+                <button class="button button-icon ion-plus" ng-click="newProject()"></button>
+            </ion-header-bar>
+            <ion-content scroll="false">
+
+                <ion-list>
+                    <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
+                        {{project.title}}
+                    </ion-item>
+                </ion-list>
+
+            </ion-content>
         </ion-side-menu>
-      </ion-side-menus>
-      <script id="new-task.html" type="text/ng-template">
+    </ion-side-menus>
+    <script id="new-task.html" type="text/ng-template">
         <div class="modal">
             <ion-header-bar class="bar-secondary">
-              <h1 class="title">New Task</h1>
-              <button class="button button-clear button-positive" ng-click="closeNewTask()">Cancel</button>
+                <h1 class="title">New Task</h1>
+                <button class="button button-clear button-positive" ng-click="closeNewTask()">Cancel</button>
             </ion-header-bar>
-            
-            <ion-content>  
-              <form ng-submit="createTask(task)">
-                  <div class="list">
-                      <label class="item item-input">
-                          <input type="text" placeholder="What do you need to do?" ng-model="task.title">
-                      </label>
-                  </div>
-                  <div class="padding">
-                      <button type="submit" class="button button-block button-positive">Create Task</button>
-                  </div>
-              </form>
+
+            <ion-content>
+                <form ng-submit="createTask(task)">
+                    <div class="list">
+                        <label class="item item-input">
+                            <input type="text" placeholder="What do you need to do?" ng-model="task.title">
+                        </label>
+                        <label class="item item-input" ionic-timepicker input-obj="timePickerObject">
+                            <input standard-time-meridian etime='timePickerObject.inputEpochTime' type="text" placeholder="What time do you want do remind you?"
+                            ng-model="task.time">
+                        </label>
+                    </div>
+                    <div class="padding">
+                        <button type="submit" class="button button-block button-positive">Create Task</button>
+                    </div>
+                </form>
             </ion-content>
-            
+
         </div>
-      </script>
-  </body>
+    </script>
+</body>
+
 </html>
